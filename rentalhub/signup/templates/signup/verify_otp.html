@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Verification</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .verify-container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+      padding: 40px;
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    h2 {
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+    p {
+      color: #fefefe;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      color: #fff;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      background-color: rgba(255, 255, 255, 0.85);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      background-color: #fff;
+      box-shadow: 0 0 0 2px #5dade2;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+    }
+
+    .msg {
+      text-align: center;
+      padding: 10px;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="verify-container">
+    <h2>Email Verification</h2>
+    <p>We have sent an OTP to your email: <b>{{ email }}</b></p>
+
+    <!-- OTP Verification Form -->
+    <form method="post">
+      {% csrf_token %}
+      <label for="otp">Enter OTP:</label>
+      <input type="text" name="otp" placeholder="Enter 6-digit OTP" required>
+      <button type="submit">Verify</button>
+    </form>
+
+    <!-- Resend OTP Button -->
+    <form method="post" action="{% url 'resend_otp' %}">
+      {% csrf_token %}
+      <button type="submit">Resend OTP</button>
+    </form>
+
+    <!-- Messages -->
+    {% for message in messages %}
+      <p class="msg">{{ message }}</p>
+    {% endfor %}
+  </div>
+</body>
+</html>
+ 
